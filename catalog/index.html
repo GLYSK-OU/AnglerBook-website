@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnglerBook — Gear catalog</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#16543C">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<!-- Single source of truth for the redirect target. The catalog lives in GitHub;
+     this page is only a stable public alias at anglerbook.fun/catalog -->
+<meta http-equiv="refresh" content="0; url=https://raw.githubusercontent.com/GLYSK-OU/AnglerBook/main/catalog/gear.json">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .redir { min-height: 100svh; display: grid; place-items: center; text-align: center; }
+  .redir .crest { width: 96px; margin: 0 auto 22px; }
+  .redir h1 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.8rem,6vw,2.6rem); margin: 0 0 10px; }
+  .redir p { color: var(--ink-soft); margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<main class="redir">
+  <div class="wrap">
+    <svg class="crest" viewBox="0 0 200 240" aria-hidden="true">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16543C"/><stop offset="1" stop-color="#0A2C20"/></linearGradient>
+        <clipPath id="c"><path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z"/></clipPath>
+      </defs>
+      <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z" fill="url(#g)"/>
+      <g clip-path="url(#c)">
+        <path d="M0,150 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#F7F2E6" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+        <path d="M0,166 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+      </g>
+    </svg>
+    <h1>Taking you to the catalog</h1>
+    <p>The AnglerBook gear catalog is hosted on GitHub.</p>
+    <p><a id="link" href="https://raw.githubusercontent.com/GLYSK-OU/AnglerBook/main/catalog/gear.json">Open gear.json &rarr;</a></p>
+  </div>
+</main>
+<script>
+  // Belt-and-braces redirect in case meta refresh is blocked.
+  location.replace(document.getElementById('link').href);
+</script>
+</body>
+</html>
