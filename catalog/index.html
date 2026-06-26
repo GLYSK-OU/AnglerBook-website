@@ -7,18 +7,38 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#16543C">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<meta http-equiv="refresh" content="0; url=https://glysk-ou.github.io/AnglerBook/">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
-  .redir { min-height: 100svh; display: grid; place-items: center; text-align: center; }
-  .redir .crest { width: 96px; margin: 0 auto 22px; }
-  .redir h1 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.8rem,6vw,2.6rem); margin: 0 0 10px; }
-  .redir p { color: var(--ink-soft); margin: 0 0 18px; }
+  .cat { max-width: var(--maxw, 1040px); margin: 0 auto; padding: 40px var(--gutter, 22px) 80px; }
+  .cat-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+  .cat-head .crest { width: 52px; flex: 0 0 auto; }
+  .cat-head h1 { font-family: var(--display); font-weight: 800; text-transform: uppercase;
+    font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: .95; margin: 0; }
+  .cat-meta { color: var(--ink-soft); font-size: .9rem; margin: 0 0 26px 68px; }
+  .cat-tools { position: sticky; top: 0; background: var(--sand, #EFE9DB); padding: 12px 0;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center; z-index: 5; border-bottom: 1px solid var(--sand-deep, #ddd4c0); }
+  .cat-tools input { flex: 1 1 240px; padding: 10px 14px; border: 1px solid var(--sand-deep, #ccc);
+    border-radius: 10px; font-family: var(--body); font-size: 1rem; background: #fff; color: var(--ink); }
+  .cat-tools .count { color: var(--ink-soft); font-size: .85rem; white-space: nowrap; }
+  .kind { margin-top: 34px; }
+  .kind > h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase;
+    font-size: 1.35rem; color: var(--green, #16543C); margin: 0 0 4px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--green, #16543C); }
+  .kind .fields { color: var(--ink-faint); font-size: .78rem; margin: 0 0 14px; }
+  .brand { margin: 14px 0; }
+  .brand h3 { font-family: var(--body); font-weight: 600; font-size: 1rem; margin: 0 0 6px; color: var(--ink); }
+  .models { display: flex; flex-wrap: wrap; gap: 6px; }
+  .models span { font-size: .85rem; background: #fff; border: 1px solid var(--sand-deep, #ddd4c0);
+    border-radius: 999px; padding: 4px 11px; color: var(--ink-soft); }
+  .models span b { color: var(--green-deep, #0A2C20); font-weight: 600; }
+  .models span i { color: var(--ink-faint); font-style: normal; }
+  .state { color: var(--ink-soft); padding: 40px 0; }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
-<main class="redir">
-  <div class="wrap">
+<main class="cat">
+  <div class="cat-head">
     <svg class="crest" viewBox="0 0 200 240" aria-hidden="true">
       <defs>
         <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16543C"/><stop offset="1" stop-color="#0A2C20"/></linearGradient>
@@ -30,13 +50,94 @@
         <path d="M0,166 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
       </g>
     </svg>
-    <h1>Taking you to the gear catalog</h1>
-    <p>The AnglerBook gear archive is hosted on GitHub.</p>
-    <p><a id="link" href="https://glysk-ou.github.io/AnglerBook/">Open the gear catalog &rarr;</a></p>
+    <h1>Gear catalog</h1>
   </div>
+  <p class="cat-meta" id="meta">Loading…</p>
+
+  <div class="cat-tools">
+    <input id="q" type="search" placeholder="Filter by brand or model…" autocomplete="off" aria-label="Filter catalog">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="out"><p class="state">Loading the gear catalog…</p></div>
 </main>
+
 <script>
-  location.replace(document.getElementById('link').href);
+(async () => {
+  const out = document.getElementById('out');
+  const meta = document.getElementById('meta');
+  let data;
+  try {
+    const res = await fetch('./gear.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    data = await res.json();
+  } catch (e) {
+    out.innerHTML = '<p class="state">Could not load the catalog (' + e.message + ').</p>';
+    meta.textContent = '';
+    return;
+  }
+
+  const kinds = data.kinds || [];
+  const modelCount = kinds.reduce((n,k)=>n+(k.brands||[]).reduce((m,b)=>m+(b.models||[]).length,0),0);
+  meta.textContent = 'Version ' + (data.catalogVersion || '—') + ' · ' + kinds.length + ' categories · ' + modelCount + ' models';
+
+  out.innerHTML = '';
+  for (const k of kinds) {
+    const sec = document.createElement('section');
+    sec.className = 'kind';
+    const h2 = document.createElement('h2');
+    h2.textContent = k.label || k.kind;
+    sec.appendChild(h2);
+    if (Array.isArray(k.variantSpecFields) && k.variantSpecFields.length) {
+      const f = document.createElement('p');
+      f.className = 'fields';
+      f.textContent = 'Spec fields: ' + k.variantSpecFields.join(', ');
+      sec.appendChild(f);
+    }
+    for (const b of (k.brands || [])) {
+      const wrap = document.createElement('div');
+      wrap.className = 'brand';
+      const h3 = document.createElement('h3');
+      h3.textContent = b.brand;
+      wrap.appendChild(h3);
+      const ms = document.createElement('div');
+      ms.className = 'models';
+      for (const m of (b.models || [])) {
+        const sp = document.createElement('span');
+        const vc = Array.isArray(m.variants) ? m.variants.length : 0;
+        sp.innerHTML = '<b>' + m.model + '</b>' + (vc ? ' <i>· ' + vc + '</i>' : '');
+        sp.dataset.search = (b.brand + ' ' + m.model).toLowerCase();
+        ms.appendChild(sp);
+      }
+      wrap.appendChild(ms);
+      sec.appendChild(wrap);
+    }
+    out.appendChild(sec);
+  }
+
+  const q = document.getElementById('q');
+  const count = document.getElementById('count');
+  const applyFilter = () => {
+    const term = q.value.trim().toLowerCase();
+    let shown = 0;
+    out.querySelectorAll('.kind').forEach(sec => {
+      let kindShown = 0;
+      sec.querySelectorAll('.brand').forEach(br => {
+        let brandShown = 0;
+        br.querySelectorAll('.models span').forEach(sp => {
+          const hit = !term || sp.dataset.search.includes(term);
+          sp.classList.toggle('hidden', !hit);
+          if (hit) { brandShown++; shown++; }
+        });
+        br.classList.toggle('hidden', brandShown === 0);
+        if (brandShown) kindShown++;
+      });
+      sec.classList.toggle('hidden', kindShown === 0);
+    });
+    count.textContent = term ? shown + ' match' + (shown===1?'':'es') : '';
+  };
+  q.addEventListener('input', applyFilter);
+})();
 </script>
 </body>
 </html>
