@@ -117,7 +117,7 @@ curl -I https://anglerbook.fun           # expect HTTP/2 200
 - First request after attaching the domain takes ~1–2s while the TLS certificate provisions —
   that's normal, not an error.
 - Check the three routes: `/` (landing), `/terms.html`, `/privacy.html`, and `/catalog`
-  (browsable catalog; fetches `https://catalog.anglerbook.fun/catalog/gear.json` at runtime).
+  (should 302 to the GitHub `gear.json`).
 
 ---
 

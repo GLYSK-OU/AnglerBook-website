@@ -64,16 +64,59 @@
 
 <script>
 (async () => {
-  // Single source of truth: the canonical catalog published from the
-  // AnglerBook-catalog repo. This site no longer bundles its own copy.
-  const SOURCE = 'https://catalog.anglerbook.fun/catalog/gear.json';
-  const CACHE_KEY = 'anglerbook.gear.catalog.v1';
-
   const out = document.getElementById('out');
   const meta = document.getElementById('meta');
+  let data;
+  try {
+    const res = await fetch('./gear.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    data = await res.json();
+  } catch (e) {
+    out.innerHTML = '<p class="state">Could not load the catalog (' + e.message + ').</p>';
+    meta.textContent = '';
+    return;
+  }
+
+  const kinds = data.kinds || [];
+  const modelCount = kinds.reduce((n,k)=>n+(k.brands||[]).reduce((m,b)=>m+(b.models||[]).length,0),0);
+  meta.textContent = 'Version ' + (data.catalogVersion || '—') + ' · ' + kinds.length + ' categories · ' + modelCount + ' models';
+
+  out.innerHTML = '';
+  for (const k of kinds) {
+    const sec = document.createElement('section');
+    sec.className = 'kind';
+    const h2 = document.createElement('h2');
+    h2.textContent = k.label || k.kind;
+    sec.appendChild(h2);
+    if (Array.isArray(k.variantSpecFields) && k.variantSpecFields.length) {
+      const f = document.createElement('p');
+      f.className = 'fields';
+      f.textContent = 'Spec fields: ' + k.variantSpecFields.join(', ');
+      sec.appendChild(f);
+    }
+    for (const b of (k.brands || [])) {
+      const wrap = document.createElement('div');
+      wrap.className = 'brand';
+      const h3 = document.createElement('h3');
+      h3.textContent = b.brand;
+      wrap.appendChild(h3);
+      const ms = document.createElement('div');
+      ms.className = 'models';
+      for (const m of (b.models || [])) {
+        const sp = document.createElement('span');
+        const vc = Array.isArray(m.variants) ? m.variants.length : 0;
+        sp.innerHTML = '<b>' + m.model + '</b>' + (vc ? ' <i>· ' + vc + '</i>' : '');
+        sp.dataset.search = (b.brand + ' ' + m.model).toLowerCase();
+        ms.appendChild(sp);
+      }
+      wrap.appendChild(ms);
+      sec.appendChild(wrap);
+    }
+    out.appendChild(sec);
+  }
+
   const q = document.getElementById('q');
   const count = document.getElementById('count');
-
   const applyFilter = () => {
     const term = q.value.trim().toLowerCase();
     let shown = 0;
@@ -93,83 +136,7 @@
     });
     count.textContent = term ? shown + ' match' + (shown===1?'':'es') : '';
   };
-  // Wire the filter once — render() rebuilds #out in place, and the handler
-  // re-queries the DOM each time, so a single listener survives re-renders.
   q.addEventListener('input', applyFilter);
-
-  const render = (data) => {
-    const kinds = data.kinds || [];
-    const modelCount = kinds.reduce((n,k)=>n+(k.brands||[]).reduce((m,b)=>m+(b.models||[]).length,0),0);
-    meta.textContent = 'Version ' + (data.catalogVersion || '—') + ' · ' + kinds.length + ' categories · ' + modelCount + ' models';
-
-    out.innerHTML = '';
-    for (const k of kinds) {
-      const sec = document.createElement('section');
-      sec.className = 'kind';
-      const h2 = document.createElement('h2');
-      h2.textContent = k.label || k.kind;
-      sec.appendChild(h2);
-      if (Array.isArray(k.variantSpecFields) && k.variantSpecFields.length) {
-        const f = document.createElement('p');
-        f.className = 'fields';
-        f.textContent = 'Spec fields: ' + k.variantSpecFields.join(', ');
-        sec.appendChild(f);
-      }
-      for (const b of (k.brands || [])) {
-        const wrap = document.createElement('div');
-        wrap.className = 'brand';
-        const h3 = document.createElement('h3');
-        h3.textContent = b.brand;
-        wrap.appendChild(h3);
-        const ms = document.createElement('div');
-        ms.className = 'models';
-        for (const m of (b.models || [])) {
-          const sp = document.createElement('span');
-          const vc = Array.isArray(m.variants) ? m.variants.length : 0;
-          sp.innerHTML = '<b>' + m.model + '</b>' + (vc ? ' <i>· ' + vc + '</i>' : '');
-          sp.dataset.search = (b.brand + ' ' + m.model).toLowerCase();
-          ms.appendChild(sp);
-        }
-        wrap.appendChild(ms);
-        sec.appendChild(wrap);
-      }
-      out.appendChild(sec);
-    }
-    applyFilter();
-  };
-
-  // Paint instantly from the last cached catalog (if any), then revalidate.
-  let cachedVersion = null;
-  try {
-    const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-    if (cached && cached.data && Array.isArray(cached.data.kinds)) {
-      cachedVersion = cached.data.catalogVersion || null;
-      render(cached.data);
-    }
-  } catch (e) { /* ignore corrupt/absent cache */ }
-
-  // Fetch the canonical catalog. cache:'default' lets the browser honour the
-  // endpoint's Cache-Control (max-age=600); app-level version checking below
-  // re-renders only when the catalog actually changed.
-  let data;
-  try {
-    const res = await fetch(SOURCE, { cache: 'default' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    data = await res.json();
-  } catch (e) {
-    if (cachedVersion === null) {
-      out.innerHTML = '<p class="state">Could not load the catalog (' + e.message + ').</p>';
-      meta.textContent = '';
-    }
-    // Otherwise keep the cached view rather than blanking the page.
-    return;
-  }
-
-  // Re-render + refresh the cache only when catalogVersion moved on.
-  if (data.catalogVersion == null || data.catalogVersion !== cachedVersion) {
-    render(data);
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data })); } catch (e) { /* quota/private mode */ }
-  }
 })();
 </script>
 </body>
