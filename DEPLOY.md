@@ -6,20 +6,18 @@ Static site. No build step — these files serve as-is.
 - index.html ............ landing page (brand crest, features, Pro, footer)
 - terms.html ............ Terms of Use (GLYSK OÜ, Estonia governing law)
 - privacy.html .......... Privacy Policy (App Store privacy-policy URL)
-- catalog/index.html .... browsable gear catalog (fetches the canonical gear.json at runtime)
+- catalog/index.html .... redirect → GitHub-hosted gear.json
 - 404.html .............. branded not-found page
 - og-image.png .......... social share card (1200×630)
 - favicon.svg
 - assets/ ............... style.css + self-hosted fonts (no third-party CDN)
 - SETUP-statichost-infomaniak.md ... full GitHub → StaticHost → Infomaniak guide
 
-## Catalog data source
-/catalog is a browsable page that fetches the gear catalog at runtime from the
-single canonical source (maintained in GLYSK-OU/AnglerBook-catalog, published via
-GitHub Pages):
-  https://catalog.anglerbook.fun/catalog/gear.json
-This site no longer bundles its own gear.json copy — there is one source of truth.
-To change the source, edit the `SOURCE` constant in catalog/index.html.
+## Catalog redirect target
+/catalog currently 302s to:
+  https://raw.githubusercontent.com/GLYSK-OU/AnglerBook/main/catalog/gear.json
+To change it, edit the URL in catalog/index.html (it appears in the meta-refresh,
+the visible link, and the <script> fallback — one target, three spots).
 
 ## Deploy to statichost (direct upload)
 The statichost site must already exist in the dashboard, and anglerbook.fun must be
