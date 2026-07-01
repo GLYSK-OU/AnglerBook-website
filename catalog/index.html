@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#16543C">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/theme.js"></script>
 <style>
   .cat { max-width: var(--maxw, 1040px); margin: 0 auto; padding: 40px var(--gutter, 22px) 80px; }
   .cat-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
@@ -18,7 +19,7 @@
   .cat-tools { position: sticky; top: 0; background: var(--sand, #EFE9DB); padding: 12px 0;
     display: flex; gap: 12px; flex-wrap: wrap; align-items: center; z-index: 5; border-bottom: 1px solid var(--sand-deep, #ddd4c0); }
   .cat-tools input { flex: 1 1 240px; padding: 10px 14px; border: 1px solid var(--sand-deep, #ccc);
-    border-radius: 10px; font-family: var(--body); font-size: 1rem; background: #fff; color: var(--ink); }
+    border-radius: 10px; font-family: var(--body); font-size: 1rem; background: var(--cream); color: var(--ink); }
   .cat-tools .count { color: var(--ink-soft); font-size: .85rem; white-space: nowrap; }
   .kind { margin-top: 34px; }
   .kind > h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase;
@@ -28,9 +29,9 @@
   .brand { margin: 14px 0; }
   .brand h3 { font-family: var(--body); font-weight: 600; font-size: 1rem; margin: 0 0 6px; color: var(--ink); }
   .models { display: flex; flex-wrap: wrap; gap: 6px; }
-  .models span { font-size: .85rem; background: #fff; border: 1px solid var(--sand-deep, #ddd4c0);
+  .models span { font-size: .85rem; background: var(--cream); border: 1px solid var(--sand-deep, #ddd4c0);
     border-radius: 999px; padding: 4px 11px; color: var(--ink-soft); }
-  .models span b { color: var(--green-deep, #0A2C20); font-weight: 600; }
+  .models span b { color: var(--green); font-weight: 600; }
   .models span i { color: var(--ink-faint); font-style: normal; }
   .state { color: var(--ink-soft); padding: 40px 0; }
   .hidden { display: none !important; }
@@ -39,17 +40,29 @@
 <body>
 <main class="cat">
   <div class="cat-head">
-    <svg class="crest" viewBox="0 0 200 240" aria-hidden="true">
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16543C"/><stop offset="1" stop-color="#0A2C20"/></linearGradient>
-        <clipPath id="c"><path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z"/></clipPath>
-      </defs>
-      <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z" fill="url(#g)"/>
-      <g clip-path="url(#c)">
-        <path d="M0,150 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#F7F2E6" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
-        <path d="M0,166 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
-      </g>
-    </svg>
+          <svg class="crest" viewBox="0 0 200 240" aria-hidden="true">
+        <defs>
+          <linearGradient id="shieldG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#16543C"/>
+            <stop offset="1" stop-color="#0A2C20"/>
+          </linearGradient>
+          <clipPath id="shieldClip">
+            <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z"/>
+          </clipPath>
+        </defs>
+        <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z" fill="url(#shieldG)"/>
+        <g clip-path="url(#shieldClip)">
+          <g class="waterlines">
+            <path d="M6,150 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+            <path d="M6,168 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.40"/>
+            <path d="M6,134 q30,-10 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#F7F2E6" stroke-width="3" stroke-linecap="round" opacity="0.50"/>
+            <path d="M6,186 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.26"/>
+          </g>
+        </g>
+        <path d="M46,32 H154 a10,10 0 0 1 10,10 V116 C164,160 142,185 100,201 C58,185 36,160 36,116 V42 a10,10 0 0 1 10,-10 Z" fill="none" stroke="#F7F2E6" stroke-width="1.5" opacity="0.4"/>
+        <text x="100" y="118" text-anchor="middle" fill="#F7F2E6" font-size="92" font-weight="800" font-family="'Big Shoulders Display', sans-serif" letter-spacing="-4">AB</text>
+      </svg>
+
     <h1>Gear catalog</h1>
   </div>
   <p class="cat-meta" id="meta">Loading…</p>

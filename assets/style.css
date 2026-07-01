@@ -302,3 +302,56 @@ section { padding-block: clamp(56px, 9vw, 104px); }
   .reveal { opacity: 1; transform: none; transition: none; }
   * { scroll-behavior: auto; }
 }
+
+/* ==================== Light / dark theming ==================== */
+:root { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --sand:        #0E1712;
+  --sand-deep:   #0A120E;
+  --cream:       #16221B;
+  --green:       #74C2A0;
+  --green-deep:  #0A2C20;
+  --slate:       #8AA6B2;
+  --slate-light: #A9C1CC;
+  --ink:         #E9E3D5;
+  --ink-soft:    rgba(233, 227, 213, 0.66);
+  --ink-faint:   rgba(233, 227, 213, 0.16);
+}
+/* the deep-green band + solid pill always carry their own light text */
+:root[data-theme="dark"] .band {
+  background: linear-gradient(160deg, #17452F 0%, #0B2117 100%);
+  color: #F4EFE1;
+}
+:root[data-theme="dark"] .band h2 { color: #F4EFE1; }
+:root[data-theme="dark"] .pill { color: #0E1712; }
+:root[data-theme="dark"] ::selection { background: var(--green); color: #0E1712; }
+:root[data-theme="dark"] .badge {
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(116, 194, 160, 0.10), transparent 60%),
+    var(--sand);
+}
+:root[data-theme="dark"] .crest { filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.45)); }
+
+/* theme toggle control (injected by assets/theme.js) */
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 60;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: 0; padding: 8px 13px; border-radius: 999px;
+  background: var(--cream); color: var(--ink);
+  border: 1px solid var(--ink-faint);
+  font-family: var(--body); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: border-color .2s ease, color .2s ease, background .2s ease;
+}
+.theme-toggle:hover { border-color: var(--slate); }
+.theme-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.theme-toggle svg { width: 15px; height: 15px; flex: none; }
+.theme-toggle span { line-height: 1; }
+@media (max-width: 560px) {
+  .theme-toggle { top: 12px; right: 12px; padding: 8px; }
+  .theme-toggle span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .theme-toggle { transition: none; } }
