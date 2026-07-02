@@ -1,205 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AnglerBook — Gear catalog</title>
-<meta name="robots" content="noindex">
-<meta name="theme-color" content="#16543C">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css">
-<script src="../assets/theme.js"></script>
-<style>
-  .cat { max-width: var(--maxw, 1040px); margin: 0 auto; padding: 40px var(--gutter, 22px) 80px; }
-  .cat-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
-  .cat-head .crest { width: 52px; flex: 0 0 auto; }
-  .cat-head h1 { font-family: var(--display); font-weight: 800; text-transform: uppercase;
-    font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: .95; margin: 0; }
-  .cat-meta { color: var(--ink-soft); font-size: .9rem; margin: 0 0 26px 68px; }
-  .cat-tools { position: sticky; top: 0; background: var(--sand, #EFE9DB); padding: 12px 0;
-    display: flex; gap: 12px; flex-wrap: wrap; align-items: center; z-index: 5; border-bottom: 1px solid var(--sand-deep, #ddd4c0); }
-  .cat-tools input { flex: 1 1 240px; padding: 10px 14px; border: 1px solid var(--sand-deep, #ccc);
-    border-radius: 10px; font-family: var(--body); font-size: 1rem; background: var(--cream); color: var(--ink); }
-  .cat-tools .count { color: var(--ink-soft); font-size: .85rem; white-space: nowrap; }
-  .kind { margin-top: 34px; }
-  .kind > h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase;
-    font-size: 1.35rem; color: var(--green, #16543C); margin: 0 0 4px; padding-bottom: 6px;
-    border-bottom: 2px solid var(--green, #16543C); }
-  .kind .fields { color: var(--ink-faint); font-size: .78rem; margin: 0 0 14px; }
-  .brand { margin: 14px 0; }
-  .brand h3 { font-family: var(--body); font-weight: 600; font-size: 1rem; margin: 0 0 6px; color: var(--ink); }
-  .models { display: flex; flex-wrap: wrap; gap: 6px; }
-  .models span { font-size: .85rem; background: var(--cream); border: 1px solid var(--sand-deep, #ddd4c0);
-    border-radius: 999px; padding: 4px 11px; color: var(--ink-soft); }
-  .models span b { color: var(--green); font-weight: 600; }
-  .models span i { color: var(--ink-faint); font-style: normal; }
-  .state { color: var(--ink-soft); padding: 40px 0; }
-  .hidden { display: none !important; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnglerBook · Gear Archive</title>
+  <link rel="canonical" href="https://catalog.anglerbook.fun/" />
+  <meta http-equiv="refresh" content="0; url=https://catalog.anglerbook.fun/" />
+  <meta name="robots" content="noindex" />
+  <script>location.replace("https://catalog.anglerbook.fun/" + location.search + location.hash);</script>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:#EFE9DB; color:#16201B; display:grid; place-items:center;
+      min-height:100vh; margin:0; padding:24px; text-align:center; }
+    a { color:#16543C; }
+  </style>
 </head>
 <body>
-<main class="cat">
-  <div class="cat-head">
-          <svg class="crest" viewBox="0 0 200 240" aria-hidden="true">
-        <defs>
-          <linearGradient id="shieldG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#16543C"/>
-            <stop offset="1" stop-color="#0A2C20"/>
-          </linearGradient>
-          <clipPath id="shieldClip">
-            <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z"/>
-          </clipPath>
-        </defs>
-        <path d="M40,24 H160 a16,16 0 0 1 16,16 V118 C176,168 150,196 100,214 C50,196 24,168 24,118 V40 a16,16 0 0 1 16,-16 Z" fill="url(#shieldG)"/>
-        <g clip-path="url(#shieldClip)">
-          <g class="waterlines">
-            <path d="M6,150 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
-            <path d="M6,168 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.40"/>
-            <path d="M6,134 q30,-10 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#F7F2E6" stroke-width="3" stroke-linecap="round" opacity="0.50"/>
-            <path d="M6,186 q30,-12 60,0 t60,0 t60,0 t60,0" fill="none" stroke="#5E7C8A" stroke-width="5" stroke-linecap="round" opacity="0.26"/>
-          </g>
-        </g>
-        <path d="M46,32 H154 a10,10 0 0 1 10,10 V116 C164,160 142,185 100,201 C58,185 36,160 36,116 V42 a10,10 0 0 1 10,-10 Z" fill="none" stroke="#F7F2E6" stroke-width="1.5" opacity="0.4"/>
-        <text x="100" y="118" text-anchor="middle" fill="#F7F2E6" font-size="92" font-weight="800" font-family="'Big Shoulders Display', sans-serif" letter-spacing="-4">AB</text>
-      </svg>
-
-    <h1>Gear catalog</h1>
-  </div>
-  <p class="cat-meta" id="meta">Loading…</p>
-
-  <div class="cat-tools">
-    <input id="q" type="search" placeholder="Filter by brand or model…" autocomplete="off" aria-label="Filter catalog">
-    <span class="count" id="count"></span>
-  </div>
-
-  <div id="out"><p class="state">Loading the gear catalog…</p></div>
-</main>
-
-<script>
-(async () => {
-  // Canonical catalog, maintained in GLYSK-OU/AnglerBook-catalog and published
-  // via GitHub Pages (CORS: Access-Control-Allow-Origin: *). We fetch it live so
-  // the page is always current. ./gear.json is a same-origin fallback committed
-  // to this repo — used only if the canonical fetch fails, so the page can never
-  // go blank. (NB: catalog.anglerbook.fun is not provisioned yet; point SOURCE
-  // there once its DNS + custom domain are live.)
-  const SOURCE = 'https://glysk-ou.github.io/AnglerBook-catalog/catalog/gear.json';
-  const FALLBACK = './gear.json';
-  const CACHE_KEY = 'anglerbook.gear.catalog.v1';
-
-  const out = document.getElementById('out');
-  const meta = document.getElementById('meta');
-  const q = document.getElementById('q');
-  const count = document.getElementById('count');
-
-  const applyFilter = () => {
-    const term = q.value.trim().toLowerCase();
-    let shown = 0;
-    out.querySelectorAll('.kind').forEach(sec => {
-      let kindShown = 0;
-      sec.querySelectorAll('.brand').forEach(br => {
-        let brandShown = 0;
-        br.querySelectorAll('.models span').forEach(sp => {
-          const hit = !term || sp.dataset.search.includes(term);
-          sp.classList.toggle('hidden', !hit);
-          if (hit) { brandShown++; shown++; }
-        });
-        br.classList.toggle('hidden', brandShown === 0);
-        if (brandShown) kindShown++;
-      });
-      sec.classList.toggle('hidden', kindShown === 0);
-    });
-    count.textContent = term ? shown + ' match' + (shown===1?'':'es') : '';
-  };
-  // Wire the filter once — render() rebuilds #out in place and the handler
-  // re-queries the DOM each time, so one listener survives re-renders.
-  q.addEventListener('input', applyFilter);
-
-  const render = (data) => {
-    const kinds = data.kinds || [];
-    const modelCount = kinds.reduce((n,k)=>n+(k.brands||[]).reduce((m,b)=>m+(b.models||[]).length,0),0);
-    meta.textContent = 'Version ' + (data.catalogVersion || '—') + ' · ' + kinds.length + ' categories · ' + modelCount + ' models';
-
-    out.innerHTML = '';
-    for (const k of kinds) {
-      const sec = document.createElement('section');
-      sec.className = 'kind';
-      const h2 = document.createElement('h2');
-      h2.textContent = k.label || k.kind;
-      sec.appendChild(h2);
-      if (Array.isArray(k.variantSpecFields) && k.variantSpecFields.length) {
-        const f = document.createElement('p');
-        f.className = 'fields';
-        f.textContent = 'Spec fields: ' + k.variantSpecFields.join(', ');
-        sec.appendChild(f);
-      }
-      for (const b of (k.brands || [])) {
-        const wrap = document.createElement('div');
-        wrap.className = 'brand';
-        const h3 = document.createElement('h3');
-        h3.textContent = b.brand;
-        wrap.appendChild(h3);
-        const ms = document.createElement('div');
-        ms.className = 'models';
-        for (const m of (b.models || [])) {
-          const sp = document.createElement('span');
-          const vc = Array.isArray(m.variants) ? m.variants.length : 0;
-          sp.innerHTML = '<b>' + m.model + '</b>' + (vc ? ' <i>· ' + vc + '</i>' : '');
-          sp.dataset.search = (b.brand + ' ' + m.model).toLowerCase();
-          ms.appendChild(sp);
-        }
-        wrap.appendChild(ms);
-        sec.appendChild(wrap);
-      }
-      out.appendChild(sec);
-    }
-    applyFilter();
-  };
-
-  const fetchJson = async (url) => {
-    const res = await fetch(url, { cache: 'default' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  };
-
-  // 1. Paint instantly from the last cached canonical catalog, if any.
-  let shownVersion = null;
-  try {
-    const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-    if (cached && cached.data && Array.isArray(cached.data.kinds)) {
-      shownVersion = cached.data.catalogVersion || null;
-      render(cached.data);
-    }
-  } catch (e) { /* ignore corrupt/absent cache */ }
-
-  // 2. Fetch the canonical catalog; fall back to the bundled copy on failure.
-  let data, fromCanonical = false;
-  try {
-    data = await fetchJson(SOURCE);
-    fromCanonical = true;
-  } catch (e) {
-    // Canonical unreachable. If something is already on screen (cache), keep it
-    // rather than downgrade to the older bundled copy or blank the page.
-    if (shownVersion !== null) return;
-    try {
-      data = await fetchJson(FALLBACK);
-    } catch (e2) {
-      out.innerHTML = '<p class="state">Could not load the catalog (' + e.message + ').</p>';
-      meta.textContent = '';
-      return;
-    }
-  }
-
-  // 3. Re-render only when the catalog changed; cache canonical results so the
-  //    next visit paints instantly and revalidates against catalogVersion.
-  if (data.catalogVersion == null || data.catalogVersion !== shownVersion) {
-    render(data);
-    shownVersion = data.catalogVersion || null;
-  }
-  if (fromCanonical) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data })); } catch (e) { /* quota/private mode */ }
-  }
-})();
-</script>
+  <p>The AnglerBook Gear Archive has moved to
+     <a href="https://catalog.anglerbook.fun/">catalog.anglerbook.fun</a>.</p>
 </body>
 </html>
