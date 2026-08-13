@@ -465,3 +465,10 @@ section { padding-block: clamp(56px, 9vw, 104px); }
 .lang-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .lang-pop { display: none; }
 .lang-menu.open .lang-pop { display: flex; }
+
+/* language menu: native <details>, no JavaScript */
+.lang-btn { list-style: none; -webkit-user-select: none; user-select: none; }
+.lang-btn::-webkit-details-marker { display: none; }
+.lang-btn::marker { content: ""; }
+.lang-menu[open] > .lang-btn { border-color: var(--slate); }
+.lang-menu[open] > .lang-pop { display: flex; }

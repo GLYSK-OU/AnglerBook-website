@@ -47,21 +47,3 @@
   if (mq.addEventListener) mq.addEventListener('change', onSys);
   else if (mq.addListener) mq.addListener(onSys);
 })();
-
-/* language menu toggle (present only on localized landing pages) */
-(function () {
-  function wire() {
-    var menu = document.querySelector('.lang-menu');
-    if (!menu) return;
-    var btn = menu.querySelector('.lang-btn');
-    if (!btn) return;
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = menu.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    document.addEventListener('click', function (e) { if (!menu.contains(e.target)) menu.classList.remove('open'); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menu.classList.remove('open'); });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
-})();
