@@ -375,3 +375,11 @@ section { padding-block: clamp(56px, 9vw, 104px); }
 .beta-btn svg { width: 15px; height: 15px; flex: none; }
 .beta-btn:not(.is-soon):hover { border-color: var(--green); color: var(--green); }
 .beta-btn.is-soon { color: var(--ink-soft); cursor: default; opacity: 0.7; }
+
+/* ==================== App Store download badge ==================== */
+.appstore-cta { display: inline-block; margin: 12px 0 2px; line-height: 0; }
+.appstore-cta img { height: 52px; width: auto; display: block; }
+.appstore-cta:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 9px; }
+.appstore-cta .badge-dark { display: none; }
+:root[data-theme="dark"] .appstore-cta .badge-light { display: none; }
+:root[data-theme="dark"] .appstore-cta .badge-dark { display: block; }
