@@ -448,3 +448,20 @@ section { padding-block: clamp(56px, 9vw, 104px); }
 .lang-pop a:hover { background: var(--ink-faint); }
 .lang-pop a[aria-current="true"] { color: var(--green); font-weight: 700; }
 @media (max-width: 560px) { #site-controls { top: 12px; right: 12px; gap: 6px; } }
+
+/* ---- language menu: robust button + JS-toggled popover (replaces <details>) ---- */
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: 0; padding: 8px 13px; border-radius: 999px;
+  background: var(--cream); color: var(--ink); border: 1px solid var(--ink-faint);
+  font-family: var(--body); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: border-color .2s ease, color .2s ease, background .2s ease;
+}
+.lang-btn svg { width: 15px; height: 15px; flex: none; }
+.lang-btn:hover, .lang-menu.open .lang-btn { border-color: var(--slate); }
+.lang-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.lang-pop { display: none; }
+.lang-menu.open .lang-pop { display: flex; }
