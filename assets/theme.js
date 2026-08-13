@@ -38,7 +38,7 @@
       var m = MODES[(MODES.indexOf(getMode()) + 1) % MODES.length];
       setMode(m); apply(m); render(btn, m);
     });
-    document.body.appendChild(btn);
+    var host = document.getElementById('site-controls'); if (!host) { host = document.createElement('div'); host.id = 'site-controls'; document.body.appendChild(host); } host.appendChild(btn);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
