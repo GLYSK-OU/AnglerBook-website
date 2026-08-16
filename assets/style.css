@@ -472,3 +472,26 @@ section { padding-block: clamp(56px, 9vw, 104px); }
 .lang-btn::marker { content: ""; }
 .lang-menu[open] > .lang-btn { border-color: var(--slate); }
 .lang-menu[open] > .lang-pop { display: flex; }
+
+/* ---- store row: App Store CTA + coming-soon Google Play badge ---- */
+.store-row { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 12px 0 2px; }
+.store-row .appstore-cta { margin: 0; }
+.store-soon { position: relative; display: inline-flex; line-height: 0; cursor: default; }
+.store-soon .gp-badge { height: 72px; width: auto; display: block; opacity: 0.9; }
+.soon-ribbon {
+  position: absolute; top: 4px; right: 2px; z-index: 2;
+  background: var(--green); color: var(--sand);
+  font-family: var(--body); font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px; line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+/* ---- footer social links ---- */
+.foot-social { display: flex; gap: 10px; margin-top: 16px; }
+.foot-social a {
+  display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center;
+  border-radius: 999px; border: 1px solid var(--ink-faint); color: var(--ink-soft);
+  transition: color .2s ease, border-color .2s ease;
+}
+.foot-social a:hover { color: var(--green); border-color: var(--green); }
+.foot-social svg { width: 17px; height: 17px; }
