@@ -18,13 +18,32 @@ GLYSK-OU/AnglerBook-website via redirect).
 - Footer: Support link + beta CTA (iOS TestFlight link, Android placeholder).
 - "GLYSK OÜ" kept unbroken (non-breaking space) across pages.
 - Light/dark/auto theme toggle. Deploy notes: DEPLOY.md, SETUP-statichost-infomaniak.md.
+- German copy expands ~30% over English: never truncate; fail and rework instead.
+- Export web/store imagery as opaque RGB @ 72 dpi (alpha or odd DPI causes
+  misleading rejections downstream).
+
+## Brand system ("River Ledger")
+- Colors: crest green #16543C -> #0A2C20, cream #F4F1E8, sand #EFE9DB.
+- Typefaces: Big Shoulders Display (headings), Outfit (body).
+- Motifs: AB monogram shield crest, fly-cast loop.
 
 ## Deploy = GitHub Pages
 Commit to main → Pages builds. Verify via `gh api repos/GLYSK-OU/AnglerBook-website/pages/builds/latest`
 (status + SHA).
 
+## Marketing logging (STANDING RULE)
+- Every marketing activity, planned or published, is ONE ROW in the vault note
+  "Marketing Dashboard" in "01.01.05 - Marketing & Campaigns/". Its Markdown
+  table is the single source of truth. One row per publication (feed post +
+  story = 2 rows). Plan -> status:planned with Pub Date; live -> status:published
+  + URL in Content Path. NEVER edit marketing-dashboard.html directly (generated;
+  rerun the sync).
+
 ## Commit discipline
-"Just do it" — commit + push directly.
+Project-wide one gate (2026-08-19): stage the diff and present it for explicit
+approval before ANY commit, CLAUDE.md and docs included. That approval carries
+the push: push immediately to the working branch (`main` included, no store gate
+here) and verify origin advanced.
 
 ---
 
@@ -85,13 +104,16 @@ ends with a vault write to the right field — what was decided, what changed, w
 Read the destination folder's `.00` index before writing; confirm every write with the full path
 and byte count.
 
-### Commit gate — non-negotiable
+### Commit gate — non-negotiable (project-wide, 2026-08-19)
 
-- `AnglerBook-iOS` (and its `AnglerBook-WatchOS` submodule) and `AnglerBook-Android`: stage the
-  diff and present it for **explicit approval** before ANY commit; **no push** without a separate
-  explicit approval. Documentation and this file included.
-- `AnglerBook-catalog`, `anglerbook-telemetry`, `AnglerBook-website`, `AnglerBook-buddies`,
-  `AnglerBook-Marketplace`, `AnglerBook-Marketing_Campaign`: just do it.
+- Every AnglerBook repo: stage the diff and present it for **explicit approval** before ANY
+  commit, documentation and this file included. **That approval carries the push**: push
+  immediately, then verify origin advanced. One decision, one gate.
+- Push target: `alpha/next` on the shippable apps (`AnglerBook-iOS` + `AnglerBook-WatchOS`
+  submodule, `AnglerBook-Android`), where `main` moves only behind a deployed test build or
+  an explicit request; the working branch (`main` included) on `AnglerBook-catalog`,
+  `anglerbook-telemetry`, `AnglerBook-website`, `AnglerBook-buddies`,
+  `AnglerBook-Marketplace`, `AnglerBook-Marketing_Campaign`, which have no store gate.
 
 ### The repos
 
